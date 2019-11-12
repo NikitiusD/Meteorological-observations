@@ -1,0 +1,11 @@
+Data
+https://data.world/carlvlewis/u-s-weather-outliers-1964
+
+Russian Data
+http://thermo.karelia.ru/weather/w_history.php
+
+ALL DATA
+https://www.kaggle.com/noaa/noaa-global-historical-climatology-network-daily
+
+Some data
+https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data
