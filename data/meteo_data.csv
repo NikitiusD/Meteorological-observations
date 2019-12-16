@@ -276,6 +276,4 @@ date,city,temperature,humidity,pressure,wind_direction,wind_speed
 2017-11,Chicago,4,75,1019,207,3
 2017-11,Detroit,4,71,1018,214,3
 2017-11,Los Angeles,17,62,1016,135,0
-2017-11,Miami,-999,-999,-999,-999,-999
-2017-11,New York,-999,-999,-999,-999,-999
 2017-11,Seattle,7,84,1013,152,3

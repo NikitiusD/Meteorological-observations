@@ -25,24 +25,34 @@
         </form>
     </div>
 
-    <div class="navbar">
-        <div data-nav="cities" class="nav">Города</div>
-        <div data-nav="meteo" class="nav">Метео Сводка</div>
+    <div class="graph">
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     </div>
-    <div class="buttons">
-        <button id="add">Добавить</button>
+
+    
+    <br><input id="hide_button" type="button" value="Скрыть/Показать таблицы данных" onclick="hideTables(document)">
+
+    <div class="table_data" style="display: none;">
+        <div class="navbar">
+            <div data-nav="cities" class="nav">Города</div>
+            <div data-nav="meteo" class="nav">Метео Сводка</div>
+        </div>
+        <div class="buttons">
+            <button id="add">Добавить</button>
+        </div>
+        <div class="table-container">
+            <table id="cities" class="table display"></table>
+        </div>
+        <div class="table-container">
+            <table id="meteo" class="table display"></table>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="database.js"></script>
+        <script src="index.js"></script>
     </div>
-    <div class="table-container">
-        <table id="cities" class="table display"></table>
-    </div>
-    <div class="table-container">
-        <table id="meteo" class="table display"></table>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="database.js"></script>
-    <script src="index.js"></script>
 </body>
 
 </html>

@@ -10,7 +10,6 @@ function display(form) {
   }
 }
 
-
 function updateDb() {
   localStorage.setItem('libraryDb', JSON.stringify(db))
 }
@@ -171,10 +170,87 @@ $('.greet-name').click(function () {
   loadPage()
 })
 
-$('#add').click(addEntity)
-$('#remove').click(deleteEntity)
+function hideTables(document) {
+  var table_data = document.getElementsByClassName("table_data")[0];
+  var hide_button = document.getElementById("hide_button");
+  if (table_data.style.display === "none") {
+    table_data.style.display = "block";
+  } else {
+    table_data.style.display = "none";
+  }
+}
+// function loadMeteo() {
+//   var data = []
+//   for (var i = 0; i < db.meteo.length; i++) {
+//     var meteo = db.meteo[i]
+//     data.push([meteo.date, meteo.city, meteo.temperature, meteo.humidity, meteo.pressure, meteo.wind_direction, meteo.wind_speed])
+//   }
+//   $('.table-container').hide()
+//   $('#meteo').parent().parent().show()
+//   dts.meteo.clear()
+//   dts.meteo.rows.add(data)
+//   dts.meteo.draw()
+// }
+window.onload = function () {
+  var data = [];
+  cities = []
+  for (var i = 0; i < db.cities.length; i++)
+    cities.push(db.cities[i].city)
+
+  for (var j = 0; j < cities.length; j++) {
+    city = cities[j];
+    var dataSeries = { type: "line" };
+    var dataPoints = [];
+    for (var i = 0; i < db.meteo.length; i++) {
+      var meteo = db.meteo[i]
+      if (city == meteo.city)
+        dataPoints.push({ x: new Date(meteo.date), y: meteo.temperature });
+    }
+    dataSeries.showInLegend = true;
+    dataSeries.name = city
+    dataSeries.dataPoints = dataPoints;
+    data.push(dataSeries);
+  }
+
+  var options = {
+    animationEnabled: true,
+    theme: "light2",
+    title: {
+      text: "Метеорологические наблюдения по городам"
+    },
+    axisX: {
+      includeZero: false,
+      lineThickness: 1,
+      crosshair: {
+        enabled: true,
+        snapToDataPoint: true
+      }
+    },
+    axisY: {
+      title: "Температура, °C",
+      crosshair: {
+        enabled: true
+      }
+    },
+    toolTip: {
+      shared: true
+    },
+    legend: {
+      cursor: "pointer",
+      verticalAlign: "bottom",
+      horizontalAlign: "left",
+      dockInsidePlotArea: true,
+    },
+    data: data
+  };
+
+  var chart = new CanvasJS.Chart("chartContainer", options);
+  chart.render();
+}
 
 if (!localStorage) alert('Ваш браузер устарел, приложение будет работать некорректно')
+$('#add').click(addEntity)
+$('#remove').click(deleteEntity)
 
 var db = JSON.parse(defaultDb)
 // var db = JSON.parse(localStorage.getItem('libraryDb') || defaultDb)
