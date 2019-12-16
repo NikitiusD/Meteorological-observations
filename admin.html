@@ -13,7 +13,24 @@
         <div class="logo"><a href="./index.html">Метеорологические наблюдения</a></div>
     </div>
 
-    <input id="hide_button" type="button" value="Скрыть/Показать таблицы данных" onclick="hideTables(document)">
+    <br>
+    <select name="hero" onchange="makeGraph(document)">
+        <option disabled>Выберите наблюдение</option>
+        <option selected value="temperature|Температура, °C">Температура, °C</option>
+        <option value="humidity|Влажность, %">Влажность, %</option>
+        <option value="pressure|Давление, мм. рт. ст.">Давление, мм. рт. ст.</option>
+        <option value="wind_direction|Направление ветра, °">Направление ветра, °</option>
+        <option value="wind_speed|Скорость ветра, м/с">Скорость ветра, м/с</option>
+   </select>
+    
+
+   <div class="graph">
+       <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+       <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+   </div>
+
+    
+    <br><input id="hide_button" type="button" value="Скрыть/Показать таблицы данных" onclick="hideTables(document)">
 
     <div class="table_data" style="display: none;">
         <div class="navbar">
@@ -21,8 +38,10 @@
             <div data-nav="cities" class="nav">Города</div>
             <div data-nav="meteo" class="nav">Метео Сводка</div>
         </div>
+        
         <div class="buttons">
             <button id="add">Добавить</button>
+            <button id="remove">Удалить</button>
         </div>
         <div class="table-container">
             <table id="customers" class="table display"></table>

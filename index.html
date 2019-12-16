@@ -25,6 +25,17 @@
         </form>
     </div>
 
+    <br>
+    <select name="hero" onchange="makeGraph(document)">
+         <option disabled>Выберите наблюдение</option>
+         <option selected value="temperature|Температура, °C">Температура, °C</option>
+         <option value="humidity|Влажность, %">Влажность, %</option>
+         <option value="pressure|Давление, мм. рт. ст.">Давление, мм. рт. ст.</option>
+         <option value="wind_direction|Направление ветра, °">Направление ветра, °</option>
+         <option value="wind_speed|Скорость ветра, м/с">Скорость ветра, м/с</option>
+    </select>
+     
+
     <div class="graph">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

@@ -1,7 +1,12 @@
 function display(form) {
   if (form.username.value == "root") {
     if (form.password.value == "root") {
-      location = "admin.html"
+      if (db.users[db.user].isEmployee){
+        location = "admin.html"
+      }
+      else{
+        alert("Вы не сотрудник")
+      }
     } else {
       alert("Некорректный пароль")
     }
@@ -179,38 +184,38 @@ function hideTables(document) {
     table_data.style.display = "none";
   }
 }
-// function loadMeteo() {
-//   var data = []
-//   for (var i = 0; i < db.meteo.length; i++) {
-//     var meteo = db.meteo[i]
-//     data.push([meteo.date, meteo.city, meteo.temperature, meteo.humidity, meteo.pressure, meteo.wind_direction, meteo.wind_speed])
-//   }
-//   $('.table-container').hide()
-//   $('#meteo').parent().parent().show()
-//   dts.meteo.clear()
-//   dts.meteo.rows.add(data)
-//   dts.meteo.draw()
-// }
-window.onload = function () {
+
+function makeGraph(document) {
   var data = [];
-  cities = []
+  cities = [];
+  measurement = document.getElementsByName("hero")[0].selectedOptions[0].value.split("|");
+  measurement_name = measurement[1];
+  measurement_desc = measurement[0];
+
   for (var i = 0; i < db.cities.length; i++)
     cities.push(db.cities[i].city)
-
+  
+  var all_y = [];
   for (var j = 0; j < cities.length; j++) {
     city = cities[j];
     var dataSeries = { type: "line" };
     var dataPoints = [];
     for (var i = 0; i < db.meteo.length; i++) {
       var meteo = db.meteo[i]
-      if (city == meteo.city)
-        dataPoints.push({ x: new Date(meteo.date), y: meteo.temperature });
+      if (city == meteo.city) {
+        x = new Date(meteo.date);
+        y = meteo[measurement_desc];
+        all_y.push(y);
+        dataPoints.push({ x: x, y: y });
+      }
     }
     dataSeries.showInLegend = true;
     dataSeries.name = city
     dataSeries.dataPoints = dataPoints;
     data.push(dataSeries);
   }
+  var max_y = Math.max.apply(null, all_y);
+  var min_y = Math.min.apply(null, all_y);
 
   var options = {
     animationEnabled: true,
@@ -227,7 +232,9 @@ window.onload = function () {
       }
     },
     axisY: {
-      title: "Температура, °C",
+      minimum: min_y - (max_y - min_y) * 0.3,
+      maximum: max_y + (max_y - min_y) * 0.3,
+      title: measurement_name,
       crosshair: {
         enabled: true
       }
@@ -252,6 +259,7 @@ if (!localStorage) alert('Ваш браузер устарел, приложен
 $('#add').click(addEntity)
 $('#remove').click(deleteEntity)
 
-var db = JSON.parse(defaultDb)
-// var db = JSON.parse(localStorage.getItem('libraryDb') || defaultDb)
+// var db = JSON.parse(defaultDb)
+var db = JSON.parse(localStorage.getItem('libraryDb') || defaultDb)
 loadPage()
+window.onload = makeGraph(document)
