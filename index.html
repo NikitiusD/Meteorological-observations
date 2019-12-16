@@ -4,9 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-
     <title>Метеорологические наблюдения</title>
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="index.css">
 </head>
@@ -15,35 +13,33 @@
     <div class="header">
         <div class="logo">Метеорологические наблюдения</div>
         <div class="greet">
-            Здравствуйте, <span title="Нажмите для смены пользователя" class="greet-name"></span>. Вы зашли как: <span class="greet-role"></span>.
+            Здравствуйте, <span title="Нажмите для смены пользователя" class="greet-name"></span>.<br>Ваш статус -
+            <span class="greet-role"></span>.
         </div>
     </div>
+    <div class="admin">
+        <form>
+            <input type="text" placeholder="Логин Админа (root)" name="username"><br>
+            <input type="password" placeholder="Пароль (root)" name="password"><br>
+            <input type="button" value="Логинь меня!" onClick="display(this.form)">
+        </form>
+    </div>
+
     <div class="navbar">
-        <!-- <div data-nav="books" class="nav">Книги</div>
-        <div data-nav="orders" class="nav">Заказы</div>
-        <div data-nav="customers" class="nav">Читатели</div> -->
         <div data-nav="cities" class="nav">Города</div>
         <div data-nav="meteo" class="nav">Метео Сводка</div>
     </div>
     <div class="buttons">
         <button id="add">Добавить</button>
     </div>
-    <!-- <div class="table-container">
-        <table id="books" class="table display"></table>
-    </div>
-    <div class="table-container">
-        <table id="orders" class="table display"></table>
-    </div>
-    <div class="table-container">
-        <table id="customers" class="table display"></table>
-    </div> -->
     <div class="table-container">
         <table id="cities" class="table display"></table>
     </div>
     <div class="table-container">
         <table id="meteo" class="table display"></table>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="database.js"></script>
     <script src="index.js"></script>

@@ -1,18 +1,33 @@
+function display(form) {
+  if (form.username.value == "root") {
+    if (form.password.value == "root") {
+      location = "admin.html"
+    } else {
+      alert("Некорректный пароль")
+    }
+  } else {
+    alert("Некорректный логин")
+  }
+}
+
+
 function updateDb() {
   localStorage.setItem('libraryDb', JSON.stringify(db))
 }
 
 function loadTable() {
-  // if (db.page === 'orders')
-  //   loadOrders()
-  if (db.page === 'customers')
+  if (db.page === 'customers') {
     loadCustomers()
-  // else if (db.page === 'books')
-  //   loadBooksTable()
-  else if (db.page === 'cities')
+    $('#remove').show()
+  }
+  else if (db.page === 'cities') {
     loadCities()
-  else if (db.page === 'meteo')
+    $('#remove').hide()
+  }
+  else if (db.page === 'meteo') {
     loadMeteo()
+    $('#remove').hide()
+  }
 }
 
 function loadCities() {
@@ -41,25 +56,11 @@ function loadMeteo() {
   dts.meteo.draw()
 }
 
-// function loadBooksTable() {
-//   var data = []
-//   for (var i = 0; i < db.books.length; i++) {
-//     var book = db.books[i]
-//     data.push([book.id, book.title, book.author, book.desc, '<img height=128 src="' + book.coverUrl + '">'])
-//   }
-//   $('.table-container').hide()
-//   $('#books').parent().parent().show()
-//   dts.books.clear()
-//   dts.books.rows.add(data)
-//   dts.books.draw()
-// }
-
 function loadCustomers() {
   var data = []
   for (var i = 0; i < db.users.length; i++) {
     var user = db.users[i]
-    if (!user.isEmployee)
-      data.push([user.id, user.login])
+    data.push([user.id, user.login, user.isEmployee ? "Да" : "Нет"])
   }
   $('.table-container').hide()
   $('#customers').parent().parent().show()
@@ -68,24 +69,23 @@ function loadCustomers() {
   dts.customers.draw()
 }
 
-// function loadOrders() {
-//   var data = []
-//   for (var i = 0; i < db.orders.length; i++) {
-//     var order = db.orders[i]
-//     data.push([order.id, order.userId, order.bookId, order.start, order.end])
-//   }
-//   $('.table-container').hide()
-//   $('#orders').parent().parent().show()
-//   dts.orders.clear()
-//   dts.orders.rows.add(data)
-//   dts.orders.draw()
-// }
+function deleteEntity() {
+  var q = ({
+    customers: 'Какого пользователя удалить? (ID)'
+  })[db.page]
+  var table = ({
+    customers: db.users
+  })[db.page]
+  var id = parseInt(prompt(q))
+  if (isNaN(id) || id >= table.length || id < 0) return
+  table.splice(id, 1)
+  updateDb()
+  loadTable()
+}
 
 function addEntity() {
   var scheme = ({
     customers: [['Введите логин', 'login']],
-    orders: [['Пользователь (ID)', 'userId'], ['Книга (ID)', 'bookId']],
-    books: [['Название', 'title'], ['Автор', 'author'], ['Описание', 'desc'], ['Обложка', 'coverUrl']],
     cities: [['Город', 'city'], ['Страна', 'country'], ['Ширина', 'lat'], ['Долгота', 'lon']],
     meteo: [['Месяц', 'date'], ['Город', 'city'], ['Температура', 'temperature'], ['Влажность', 'humidity'], ['Давление', 'pressure'], ['Направление ветра', 'wind_direction'], ['Скорость ветра', 'wind_speed']]
   }[db.page])
@@ -140,14 +140,14 @@ function loadPage() {
   $('.body').addClass('loaded')
 }
 
-$('.nav').click(function() {
+$('.nav').click(function () {
   $('.nav').removeClass('selected')
   db.page = $(this).addClass('selected').data('nav')
   updateDb()
   loadTable()
 })
 
-$('.greet-name').click(function() {
+$('.greet-name').click(function () {
   var login = prompt('Представьтесь, пожалуйста')
   if (login === null) return
   if (login === 'clr') {
@@ -167,11 +167,12 @@ $('.greet-name').click(function() {
     login: login,
     isEmployee: false,
   })
-  db.page = 'cities' 
+  db.page = 'cities'
   loadPage()
 })
 
 $('#add').click(addEntity)
+$('#remove').click(deleteEntity)
 
 if (!localStorage) alert('Ваш браузер устарел, приложение будет работать некорректно')
 

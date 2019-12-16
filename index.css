@@ -2,7 +2,7 @@
   margin: 0;
   padding: 20px;
   font-size: 18px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Ubuntu, Helvetica, sans-serif;
   opacity: 0;
 }
 
@@ -34,19 +34,17 @@
 }
 
 .logo {
-  font-family: 'Times New Roman', Times, serif;
   padding: 20px 65px 20px 0;
-  background: no-repeat url('icon.png') right;
+  background: no-repeat url('logo.png') right;
   font-size: 26px;
   background-size: contain;
-  font-style: italic;
+  font-style: bold;
 }
 
 .greet-name {
   display: inline-block;
-  font-family: 'Times New Roman', Times, serif;
   font-size: 22px;
-  text-decoration: underline;
+  font-style: italic;
   cursor: pointer;
 }
 
