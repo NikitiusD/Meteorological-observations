@@ -95,11 +95,15 @@ function addEntity() {
     customers: { isEmployee: false },
     orders: { start: new Date().toLocaleString('ru'), end: endDate.toLocaleString('ru') },
     books: {},
+    cities: {},
+    meteo: {}
   })[db.page]
   var table = ({
     customers: db.users,
     books: db.books,
-    orders: db.orders
+    orders: db.orders,
+    cities: db.cities,
+    meteo: db.meteo
   })[db.page]
   ent.id = table.length
   for (var i = 0; i < scheme.length; i++) {
