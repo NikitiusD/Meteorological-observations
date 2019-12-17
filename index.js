@@ -85,11 +85,12 @@ function deleteEntity() {
   table.splice(id, 1)
   updateDb()
   loadTable()
+  makeGraph()
 }
 
 function addEntity() {
   var scheme = ({
-    customers: [['Введите логин', 'login']],
+    customers: [['Введите логин', 'login'], ['Является ли сотрудником? (1/0)', 'isEmployee']],
     cities: [['Город', 'city'], ['Страна', 'country'], ['Ширина', 'lat'], ['Долгота', 'lon']],
     meteo: [['Месяц', 'date'], ['Город', 'city'], ['Температура', 'temperature'], ['Влажность', 'humidity'], ['Давление', 'pressure'], ['Направление ветра', 'wind_direction'], ['Скорость ветра', 'wind_speed']]
   }[db.page])
@@ -97,18 +98,15 @@ function addEntity() {
   endDate.setMonth(endDate.getMonth() + 1)
   var ent = ({
     customers: { isEmployee: false },
-    orders: { start: new Date().toLocaleString('ru'), end: endDate.toLocaleString('ru') },
-    books: {},
     cities: {},
     meteo: {}
   })[db.page]
   var table = ({
     customers: db.users,
-    books: db.books,
-    orders: db.orders,
     cities: db.cities,
     meteo: db.meteo
   })[db.page]
+
   ent.id = table.length
   for (var i = 0; i < scheme.length; i++) {
     var qf = scheme[i]
@@ -116,11 +114,12 @@ function addEntity() {
     var field = qf[1]
     var answer = prompt(q)
     if (answer === null) return
-    ent[field] = ~['bookId', 'userId'].indexOf(field) ? Number(answer) : answer
+    ent[field] = isNaN(Number(answer)) ? answer : Number(answer)
   }
   table.push(ent)
   updateDb()
   loadTable()
+  makeGraph()
 }
 
 function loadUser() {
@@ -175,7 +174,7 @@ $('.greet-name').click(function () {
   loadPage()
 })
 
-function hideTables(document) {
+function hideTables() {
   var table_data = document.getElementsByClassName("table_data")[0];
   var hide_button = document.getElementById("hide_button");
   if (table_data.style.display === "none") {
@@ -185,7 +184,7 @@ function hideTables(document) {
   }
 }
 
-function makeGraph(document) {
+function makeGraph() {
   var data = [];
   cities = [];
   measurement = document.getElementsByName("hero")[0].selectedOptions[0].value.split("|");
@@ -209,6 +208,7 @@ function makeGraph(document) {
         dataPoints.push({ x: x, y: y });
       }
     }
+    dataPoints = dataPoints.sort((a, b) => a.x < b.x ? -1 : 1)
     dataSeries.showInLegend = true;
     dataSeries.name = city
     dataSeries.dataPoints = dataPoints;
@@ -259,7 +259,7 @@ if (!localStorage) alert('Ваш браузер устарел, приложен
 $('#add').click(addEntity)
 $('#remove').click(deleteEntity)
 
-// var db = JSON.parse(defaultDb)
-var db = JSON.parse(localStorage.getItem('libraryDb') || defaultDb)
+var db = JSON.parse(defaultDb)
+// var db = JSON.parse(localStorage.getItem('libraryDb') || defaultDb)
 loadPage()
-window.onload = makeGraph(document)
+window.onload = makeGraph()

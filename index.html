@@ -26,7 +26,7 @@
     </div>
 
     <br>
-    <select name="hero" onchange="makeGraph(document)">
+    <select name="hero" onchange="makeGraph()">
          <option disabled>Выберите наблюдение</option>
          <option selected value="temperature|Температура, °C">Температура, °C</option>
          <option value="humidity|Влажность, %">Влажность, %</option>
@@ -42,7 +42,7 @@
     </div>
 
     
-    <br><input id="hide_button" type="button" value="Скрыть/Показать таблицы данных" onclick="hideTables(document)">
+    <br><input id="hide_button" type="button" value="Скрыть/Показать таблицы данных" onclick="hideTables()">
 
     <div class="table_data" style="display: none;">
         <div class="navbar">
